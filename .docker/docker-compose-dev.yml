@@ -1,0 +1,21 @@
+version: '2'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/etc/nginx/vhost.d"
+      - "/usr/share/nginx/html"
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "/etc/nginx/certs"
+  centos:
+    build: centos 
+    container_name: ${SERVER_NAME}.centos
+    environment:
+      VIRTUAL_HOST: ${SERVER_NAME},www.${SERVER_NAME}
+      VIRTUAL_PORT: 8080
+    # ports:
+    #   - "80:8080"
+
